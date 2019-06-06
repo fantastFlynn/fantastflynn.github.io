@@ -2,18 +2,29 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <!-- 
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> 
+    移动端出现显示bug 
+  -->
   <title>俄罗斯方块-HTML版</title>
 </head>
 <body>
   
-  <div class="handleArea">
-    <button id="startGame" type="button"class="btn"> 开始游戏 </button>
-    <button id="pauseGame" type="button"class="btn"> 暂停 </button>
-    <button id="addMoreGame" type="button"class="btn"> 增加一游戏 </button>
+  <div class="functionArea">
+    <button id="startGame" type="button" class="btn"> 开始游戏 </button>
+    <button id="pauseGame" type="button" class="btn"> 暂停 </button>
+    <button id="addMoreGame" type="button" class="btn"> 增加一游戏 </button>
   </div>
   <div id="gameWrap"> </div>
-  
-  
+  <div class="handleArea">
+    <div class="handleBtns">
+      <button id="upBtn" type="button" class="btn1 top"> 上 </button>
+      <button id="ritBtn" type="button" class="btn1 rit"> 右 </button>
+      <button id="btmBtn" type="button" class="btn1 btm"> 下 </button>
+      <button id="lftBtn" type="button" class="btn1 lft"> 左 </button>
+      <button id="fallBtn" type="button" class="btn1 fall"> FallDown </button>
+    </div>
+  </div>
   <div id="score" class="finaScroe"> </div>
-<script type="text/javascript" src="main.9afb749ad8633eb75646.js"></script></body>
+<script type="text/javascript" src="main.543e3b299439bf3ea912.js"></script></body>
 </html>
