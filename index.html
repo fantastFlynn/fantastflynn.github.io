@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Display</title>
-  <style>
-    a { display: block; }
-  </style>
+  <meta charset="utf-8" />
+  <title>web4more</title>
 </head>
 <body>
   
+  
   <a href="./wbpkotpts/diamonds_eliminate/"> 俄罗斯方块 </a>
   <a href="./wbpkotpts/chinese_chess/"> 中国象棋 </a>
-  
+
   
 </body>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+    .register("service-worker.js")
+    .then((registration) => {
+      console.log("Service Worker registered: ", registration);
+    })
+    .catch((registrationError) => {
+      console.error("Service Worker registration failed: ", registrationError);
+    });
+  });
+}
+</script>
 </html>
+

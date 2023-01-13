@@ -1,4 +1,4 @@
-# online-kits
+# mainvue2
 
 ## Project setup
 ```

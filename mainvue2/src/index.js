@@ -10,3 +10,7 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+
+import "remote_libs/test";
+
