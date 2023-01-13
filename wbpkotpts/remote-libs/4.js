@@ -1,1 +1,0 @@
-(self.webpackChunkremote_libs=self.webpackChunkremote_libs||[]).push([[4],{4:()=>{console.log(" remote libs test ")}}]);
