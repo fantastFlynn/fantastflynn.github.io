@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "My webpack project",
   "scripts": {
-    "dev": "webpack serve --node-env=development",
+    "dev": "npm run serve",
+    "serve": "webpack serve --node-env=development",
     "watch": "webpack --watch",
     "build": "npm run build:prd",
     "build:dev": "webpack --mode=development --node-env=development",

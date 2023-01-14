@@ -19,7 +19,7 @@ const remoteList = [
 ];
 
 const config = {
-  entry: "./src/index.js",
+  entry: "./src/main.js",
   output: {
     path: pathLib.resolve(__dirname, `./${sourceDir}/${packageJson.name}`),
   },
@@ -90,11 +90,18 @@ module.exports = () => {
   } 
   
   config.mode = "development";
+  // config.output.publicPath = `/${sourceDir}/${packageJson.name}`;
   config.devServer = {
     open: true,
     // host: "localhost",
     host: envConfig.devHost,
     port: envConfig.devPort,
+    // proxy: {
+    //   [`/${sourceDir}`]: {
+    //     target: `http://${envConfig.devHost}:7799`,
+    //     // changeOrigin: true,
+    //   },
+    // },
   };
   return config;
 };
