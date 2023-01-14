@@ -79,7 +79,6 @@ const config = {
       }, {}),
     }),
   ],
-  
 };
 
 module.exports = () => {
@@ -87,15 +86,15 @@ module.exports = () => {
     config.mode = "production";
     
     config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+    return config;
   } 
-  else {
-    config.mode = "development";
-    config.devServer = {
-      open: true,
-      // host: "localhost",
-      host: envConfig.devHost,
-      port: envConfig.devPort,
-    },
-  }
+  
+  config.mode = "development";
+  config.devServer = {
+    open: true,
+    // host: "localhost",
+    host: envConfig.devHost,
+    port: envConfig.devPort,
+  };
   return config;
 };
