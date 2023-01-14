@@ -85,6 +85,7 @@ const config = {
           path,
         } = remoteItm;
         retV[key] = `${key}@${protocol}//${hostname}:${port}${path}/mf.js`;
+        console.log( JSON.stringify(retV, null, 2));
         return retV;
       }, {}),
     }),
