@@ -5,18 +5,15 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-const getLocalIp = require("./tasks/getLocalIp.js");
 
-const localIpV4 = getLocalIp();
+const packageJson = require("./package.json");
+const sourceDir = 'wbpkotpts';
 const is_production = process.env.NODE_ENV == "production";
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
 const envConfig = is_production 
   ? require("./config/cfg.env.prd.js") 
   : require("./config/cfg.env.dev.js");
-
-const packageJson = require("./package.json");
-const sourceDir = 'wbpkotpts';
-const remoteUrl = `https://justfn.github.io/${sourceDir}`;
+const remoteUrl = `${envConfig.remoteHost}/${sourceDir}`;
 const remoteList = [
   'remote_libs',
 ];
@@ -24,7 +21,7 @@ const remoteList = [
 const config = {
   entry: "./src/index.js",
   output: {
-    path: pathLib.resolve(__dirname, `./wbpkotpts/${packageJson.name}`),
+    path: pathLib.resolve(__dirname, `./${sourceDir}/${packageJson.name}`),
   },
   module: {
     rules: [
@@ -83,12 +80,6 @@ const config = {
     }),
   ],
   
-  devServer: {
-    open: true,
-    // host: "localhost",
-    host: localIpV4,
-    port: 7700,
-  },
 };
 
 module.exports = () => {
@@ -96,8 +87,15 @@ module.exports = () => {
     config.mode = "production";
     
     config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
-  } else {
+  } 
+  else {
     config.mode = "development";
+    config.devServer = {
+      open: true,
+      // host: "localhost",
+      host: envConfig.devHost,
+      port: envConfig.devPort,
+    },
   }
   return config;
 };
