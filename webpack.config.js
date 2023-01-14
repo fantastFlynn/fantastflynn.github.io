@@ -10,10 +10,10 @@ const packageJson = require("./package.json");
 const sourceDir = 'wbpkotpts';
 const is_production = process.env.NODE_ENV == "production";
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
-const envConfig = is_production 
-  ? require("./config/cfg.env.prd.js") 
-  : require("./config/cfg.env.dev.js");
-const remoteUrl = `${envConfig.remoteHost}/${sourceDir}`;
+const envCfg = is_production 
+  ? require("./env_cfg/env.cfg.prd.js") 
+  : require("./env_cfg/env.cfg.dev.js");
+const remoteUrl = `${envCfg.remoteHost}/${sourceDir}`;
 const remoteList = [
   'remote_libs',
 ];
@@ -68,7 +68,7 @@ const config = {
       'process.env.app_name': JSON.stringify(packageJson.name),
       webpack_define_app_name: JSON.stringify(packageJson.name),
       webpack_define_is_prd: JSON.stringify(is_production),
-      webpack_define_env_config: JSON.stringify(envConfig),
+      webpack_define_env_cfg: JSON.stringify(envCfg),
     }),
     
     new webpack.container.ModuleFederationPlugin({
@@ -94,11 +94,11 @@ module.exports = () => {
   config.devServer = {
     open: true,
     // host: "localhost",
-    host: envConfig.devHost,
-    port: envConfig.devPort,
+    host: envCfg.devHost,
+    port: envCfg.devPort,
     // proxy: {
     //   [`/${sourceDir}`]: {
-    //     target: `http://${envConfig.devHost}:7799`,
+    //     target: `http://${envCfg.devHost}:7799`,
     //     // changeOrigin: true,
     //   },
     // },
