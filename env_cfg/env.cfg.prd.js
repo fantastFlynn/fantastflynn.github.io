@@ -5,7 +5,8 @@ module.exports = {
   // remoteHost: 'https://justfn.github.io',
   mfRemoteMap: {
     remote_libs: {
-      host: `https://justfn.github.io`,
+      protocol: 'https:',
+      hostname: `justfn.github.io`,
       port: 443,
       path: '/wbpkotpts',
     },

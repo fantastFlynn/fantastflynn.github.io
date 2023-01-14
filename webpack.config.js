@@ -79,11 +79,12 @@ const config = {
         }
         
         let {
-          host,
+          protocol,
+          hostname,
           port,
           path,
         } = remoteItm;
-        retV[key] = `${key}@${host}:${port}${path}/${key}/mf.js`;
+        retV[key] = `${key}@${protocol}//${hostname}:${port}${path}/mf.js`;
         return retV;
       }, {}),
     }),
