@@ -8,7 +8,7 @@ module.exports = {
   // remoteHost: `http://${devHost}:${devPort}`,
   mfRemoteMap: {
     remote_libs: {
-      host: devHost,
+      host: `http://${devHost}`,
       port: 7701,
       path: '',
     },

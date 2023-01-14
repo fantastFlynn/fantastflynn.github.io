@@ -73,7 +73,7 @@ const config = {
     new webpack.container.ModuleFederationPlugin({
       name: `remote_${packageJson.name}`,
       remotes: remoteList.reduce((retV, key, idx)=>{ 
-        let remoteItm = envCfg[key];
+        let remoteItm = envCfg.mfRemoteMap[key];
         if (!remoteItm) {
           return retV;
         }
