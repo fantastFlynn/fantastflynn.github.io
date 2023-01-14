@@ -23,7 +23,8 @@ module.exports = defineConfig({
         name: "github_web4more", 
         // filename: "mf.js",
         remotes: remoteList.reduce((retV, key, idx)=>{ 
-          return retV[key] = `${key}@${remoteUrl}/${key}/mf.js`;
+          retV[key] = `${key}@${remoteUrl}/${key}/mf.js`;
+          return retV;
         }, {}),
       }]);
   },
