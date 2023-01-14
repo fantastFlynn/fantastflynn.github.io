@@ -1,41 +1,26 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-const path = require("path");
+const pathLib = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-const ModuleFederationPlugin = require("webpack").container.ModuleFederationPlugin
 
-const isProduction = process.env.NODE_ENV == "production";
+const is_production = process.env.NODE_ENV == "production";
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
 
-const stylesHandler = MiniCssExtractPlugin.loader;
+const packageJson = require("./package.json");
+const sourceDir = 'wbpkotpts';
+const remoteUrl = `https://justfn.github.io/${sourceDir}`;
+const remoteList = [
+  'remote_libs',
+];
 
 const config = {
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "./wbpkotpts/main"),
+    path: pathLib.resolve(__dirname, `./wbpkotpts/${packageJson.name}`),
   },
-  devServer: {
-    open: true,
-    host: "localhost",
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "index.html",
-    }),
-
-    new MiniCssExtractPlugin(),
-
-    new ModuleFederationPlugin({
-      name: 'remote_web4more',
-      remotes:{
-        remote_libs: "remote_libs@https://justfn.github.io/wbpkotpts/remote_libs/mf.js",
-      },
-    })
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
-  ],
   module: {
     rules: [
       {
@@ -44,25 +29,56 @@ const config = {
       },
       {
         test: /\.less$/i,
-        use: [stylesHandler, "css-loader", "postcss-loader", "less-loader"],
+        use: [
+          MiniCssExtractPlugin.loader, 
+          "css-loader", 
+          "postcss-loader", 
+          "less-loader"
+        ],
       },
       {
         test: /\.css$/i,
-        use: [stylesHandler, "css-loader", "postcss-loader"],
+        use: [
+          MiniCssExtractPlugin.loader, 
+          "css-loader", 
+          "postcss-loader"
+        ],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: "asset",
       },
-
+      
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "index.html",
+    }),
+
+    new MiniCssExtractPlugin(),
+
+    // Add your plugins here
+    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new webpack.container.ModuleFederationPlugin({
+      name: `remote_${packageJson.name}`,
+      remotes: remoteList.reduce((retV, key, idx)=>{ 
+        retV[key] = `${key}@${remoteUrl}/${key}/mf.js`;
+        return retV;
+      }, {}),
+    }),
+  ],
+  
+  devServer: {
+    open: true,
+    host: "localhost",
+  },
 };
 
 module.exports = () => {
-  if (isProduction) {
+  if (is_production) {
     config.mode = "production";
 
     config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
