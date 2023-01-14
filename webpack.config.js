@@ -13,7 +13,6 @@ console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
 const envCfg = is_production 
   ? require("./env_cfg/env.cfg.prd.js") 
   : require("./env_cfg/env.cfg.dev.js");
-const remoteUrl = `${envCfg.remoteHost}/${sourceDir}`;
 const remoteList = [
   'remote_libs',
 ];
@@ -74,7 +73,17 @@ const config = {
     new webpack.container.ModuleFederationPlugin({
       name: `remote_${packageJson.name}`,
       remotes: remoteList.reduce((retV, key, idx)=>{ 
-        retV[key] = `${key}@${remoteUrl}/${key}/mf.js`;
+        let remoteItm = envCfg[key];
+        if (!remoteItm) {
+          return retV;
+        }
+        
+        let {
+          host,
+          port,
+          path,
+        } = remoteItm;
+        retV[key] = `${key}@${host}:${port}${path}/${key}/mf.js`;
         return retV;
       }, {}),
     }),

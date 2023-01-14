@@ -5,7 +5,14 @@ const devPort = 7700;
 
 module.exports = {
   env: 'dev',
-  remoteHost: `http://${devHost}:${devPort}`,
+  // remoteHost: `http://${devHost}:${devPort}`,
+  mfRemoteMap: {
+    remote_libs: {
+      host: devHost,
+      port: 7701,
+      path: '',
+    },
+  },
   
   // 以下为Dev环境独有字段 
   devHost,
