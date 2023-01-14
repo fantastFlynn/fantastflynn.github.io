@@ -5,9 +5,14 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const getLocalIp = require("./tasks/getLocalIp.js");
 
+const localIpV4 = getLocalIp();
 const is_production = process.env.NODE_ENV == "production";
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
+const envConfig = is_production 
+  ? require("./config/cfg.env.online.js") 
+  : require("./config/cfg.env.local.js");
 
 const packageJson = require("./package.json");
 const sourceDir = 'wbpkotpts';
@@ -62,6 +67,13 @@ const config = {
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new webpack.DefinePlugin({
+      'process.env.app_name': JSON.stringify(packageJson.name),
+      webpack_define_app_name: JSON.stringify(packageJson.name),
+      webpack_define_is_prd: JSON.stringify(is_production),
+      webpack_define_env_config: JSON.stringify(envConfig),
+    })
+    
     new webpack.container.ModuleFederationPlugin({
       name: `remote_${packageJson.name}`,
       remotes: remoteList.reduce((retV, key, idx)=>{ 
@@ -73,14 +85,16 @@ const config = {
   
   devServer: {
     open: true,
-    host: "localhost",
+    // host: "localhost",
+    host: localIpV4,
+    port: 7700,
   },
 };
 
 module.exports = () => {
   if (is_production) {
     config.mode = "production";
-
+    
     config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
   } else {
     config.mode = "development";
