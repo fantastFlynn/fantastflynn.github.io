@@ -11,8 +11,8 @@ const localIpV4 = getLocalIp();
 const is_production = process.env.NODE_ENV == "production";
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
 const envConfig = is_production 
-  ? require("./config/cfg.env.online.js") 
-  : require("./config/cfg.env.local.js");
+  ? require("./config/cfg.env.prd.js") 
+  : require("./config/cfg.env.dev.js");
 
 const packageJson = require("./package.json");
 const sourceDir = 'wbpkotpts';
@@ -72,7 +72,7 @@ const config = {
       webpack_define_app_name: JSON.stringify(packageJson.name),
       webpack_define_is_prd: JSON.stringify(is_production),
       webpack_define_env_config: JSON.stringify(envConfig),
-    })
+    }),
     
     new webpack.container.ModuleFederationPlugin({
       name: `remote_${packageJson.name}`,
