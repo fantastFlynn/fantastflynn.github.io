@@ -8,7 +8,10 @@ const {
 const packageJson = require("./package.json");
 const sourceDir = 'wbpkotpts';
 const remoteUrl = `https://justfn.github.io/${sourceDir}`;
-
+const remoteList = [
+  'remote_libs',
+  'remote_vue_applications',
+];
 
 module.exports = defineConfig({
   publicPath: `/${sourceDir}/${packageJson.name}/`,
@@ -19,10 +22,9 @@ module.exports = defineConfig({
       .use(webpack.container.ModuleFederationPlugin, [{
         name: "github_web4more", 
         // filename: "mf.js",
-        remotes: { 
-          remote_libs: `remote_libs@${remoteUrl}/remote_libs/mf.js`,
-          remote_vue_applications: `remote_vue_applications@${remoteUrl}/remote_vue_applications/mf.js`,
-        },
+        remotes: remoteList.reduce((retV, key, idx)=>{ 
+          return retV[key] = `${key}@${remoteUrl}/${key}/mf.js`;
+        }, {}),
       }]);
   },
   configureWebpack: (cfg)=>{
