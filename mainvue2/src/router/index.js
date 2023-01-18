@@ -23,7 +23,6 @@ const routeList = pageList.map((viewPath)=>{
     },
   };
 })
-console.log(' route list: ',  routeList );
 
 
 const routes = [
@@ -46,6 +45,7 @@ const routes = [
     component: ()=>import('remote_vue_applications/mindMap/detail.vue'),
   },
 ];
+console.log(' route list: ',  routeList, routes );
 
 const router = new VueRouter({
   routes
