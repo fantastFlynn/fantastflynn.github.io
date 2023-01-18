@@ -7,7 +7,10 @@ const {
 
 const packageJson = require("./package.json");
 const sourceDir = 'wbpkotpts';
-const remoteUrl = `https://justfn.github.io/${sourceDir}`;
+const isLocal = process.env.run_env === 'local';
+const envCfg = isLocal 
+  ? require("./env_cfg/env.cfg.dev.js")
+  : require("./env_cfg/env.cfg.prd.js");
 const remoteList = [
   'remote_libs',
   'remote_vue_applications',
@@ -23,7 +26,18 @@ module.exports = defineConfig({
         name: "github_web4more", 
         // filename: "mf.js",
         remotes: remoteList.reduce((retV, key, idx)=>{ 
-          retV[key] = `${key}@${remoteUrl}/${key}/mf.js`;
+          let remoteItm = envCfg.mfRemoteMap[key];
+          if (!remoteItm) {
+            return retV;
+          }
+          
+          let {
+            protocol,
+            hostname,
+            port,
+            path,
+          } = remoteItm;
+          retV[key] = `${key}@${protocol}//${hostname}:${port}${path}/mf.js`;
           return retV;
         }, {}),
       }]);
