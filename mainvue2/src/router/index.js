@@ -1,27 +1,54 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
+
+const webpackContext = require.context('../views/', true, /\.vue/);
+// console.log( webpackContext );
+const viewFiles = webpackContext.keys();
+// console.log( viewFiles );
+const pageList = viewFiles.filter((viewPath)=>{
+  let flName = viewPath.split('/').pop();
+  return /^[^A-Z]/.test( flName );
+})
+// console.log( pageList );
+const routeList = pageList.map((viewPath)=>{
+  return {
+    path: viewPath.slice(1, -4),
+    component: async()=>{
+      // console.log(' -- ', viewPath);
+      let cpnt = webpackContext(viewPath);
+      document.title = cpnt.title || 'vue-main';
+      return cpnt.default;
+    },
+  };
+})
+console.log(' route list: ',  routeList );
+
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    redirect: '/home',
+  },
+  ...routeList,
+  
+  {
+    path: '/catalog',
+    component: ()=>import('remote_vue_applications/catalog.vue'),
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+    path: '/mindMap/list',
+    component: ()=>import('remote_vue_applications/mindMap/list.vue'),
+  },
+  {
+    path: '/mindMap/detail',
+    component: ()=>import('remote_vue_applications/mindMap/detail.vue'),
+  },
+];
 
 const router = new VueRouter({
   routes
 })
 
-export default router
+export default router;
