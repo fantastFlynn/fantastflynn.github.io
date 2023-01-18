@@ -1,7 +1,7 @@
 
 const getLocalIp = require("../tasks/getLocalIp.js")
 const devHost = getLocalIp();
-const devPort = 7700; 
+const devPort = 7710; 
 
 module.exports = {
   env: 'dev',

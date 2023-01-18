@@ -45,6 +45,13 @@ module.exports = defineConfig({
   configureWebpack: (cfg)=>{
     // cfg.optimization.splitChunks = false;
     
+    if ( isLocal ) {
+      cfg.devServer = cfg.devServer || {};
+      Object.assign(cfg.devServer, {
+        host: envCfg.devHost,
+        port: envCfg.devPort,
+      })
+    }
   },
 });
 
