@@ -1,1 +1,1 @@
-console.log("hello remote libs!");
+console.log("Hello remote libs"),console.log("remote-libs"),console.log("remote-libs");
