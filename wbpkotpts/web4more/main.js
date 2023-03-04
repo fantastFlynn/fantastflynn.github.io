@@ -1,0 +1,1 @@
+console.log("Hello web4more!"),console.log("web4more"),console.log("web4more"),console.log(!0),console.log({env:"prd",remoteHost:"https://justfn.github.io",xx:1});
