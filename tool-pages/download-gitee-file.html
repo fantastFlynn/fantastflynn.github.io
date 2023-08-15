@@ -6,27 +6,68 @@
 </head>
 <body>
   
-  <script type="text/javascript">
-    ;(async()=>{
-      let searchParams = new URLSearchParams(location.search);
-      let reqUrl = searchParams.get('url');
-      if (!reqUrl) {
-        alert('下载链接不存在')
-        return ;
-      }
-      
-      let res = await fetch(reqUrl, {
-        method: "Get",
-        // headers: {
-        //   "Content-Type": "application/json"
-        // },
-        // body: JSON.stringify({
-        //   prompt: '前端开发'，
-        // }),
-      });
-      console.log( res );
-    })();
+<script type="text/javascript">
+  // 
+  function dataURL2Blob(base64){  
+    let _arr = base64.split(',')
+    let type = _arr[0].match(/:(.*?);/)[1]
+    let text = window.atob(_arr[1])
+    let buffer = new ArrayBuffer(text.length)
+    let ubuffer = new Uint8Array(buffer)
+    for (var i = 0; i < text.length; i++) { ubuffer[i] = text.charCodeAt(i); }
     
-  </script>
+    let Builder = window.WebKitBlobBuilder || window.MozBlobBuilder 
+    let blob = null;
+    if (Builder) {
+      let builder = new Builder();
+      builder.append(buffer);
+      blob = builder.getBlob(type);
+    } 
+    else { blob = new window.Blob([buffer], {type: type}); }        
+    
+    return blob 
+  }
+  // 
+  function downloadFile(fileName, fileUrl){ 
+    //创建一个a链接，用于触发下载事件的载体
+    let aLink = document.createElement('a')
+    //指定要下载的文件名(浏览器下载时，会根据文件后缀名指定解码)
+    aLink.download = fileName
+    aLink.href = fileUrl;
+    //触发事件
+    aLink.click()
+  }
+  
+  ;(async()=>{
+    let searchParams = new URLSearchParams(location.search);
+    let reqUrl = searchParams.get('url') || '';
+    if (!reqUrl) { return alert('下载链接不存在') }
+    
+    reqUrl = decodeURIComponent(reqUrl);
+    let res = await fetch(reqUrl, {
+      method: "Get",
+      // headers: {
+      //   "Content-Type": "application/json"
+      // },
+      // body: JSON.stringify({
+      //   prompt: '前端开发'，
+      // }),
+    });
+    console.log( res );
+    let json = await res.json();
+    console.log( json  );
+    
+    let contentType = searchParams.get('type') || '';
+    contentType = decodeURIComponent(contentType);
+    let base64 = `data:${contentType};base64,${json.content}`;
+    let blob = dataURL2Blob(base64);
+    let downloadUrl = URL.createObjectURL( blob );
+    console.log( downloadUrl  )
+    
+    let fileName = searchParams.get('name') || '';
+    fileName = decodeURIComponent(fileName);
+    downloadFile(fileName, downloadUrl);
+  })();
+</script>
 </body>
 </html>
