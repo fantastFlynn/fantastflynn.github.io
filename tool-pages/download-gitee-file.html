@@ -5,7 +5,8 @@
   <title>gitee文件下载</title>
 </head>
 <body>
-  
+  <div id="msg_show"> </div>
+  <div id="msg_show_more"> </div>
 <script type="text/javascript">
   // 
   function dataURL2Blob(base64){  
@@ -43,6 +44,7 @@
     let reqUrl = searchParams.get('url') || '';
     if (!reqUrl) { return alert('下载链接不存在') }
     
+    msg_show.textContent = '下载中...';
     reqUrl = decodeURIComponent(reqUrl);
     let res = await fetch(reqUrl, {
       method: "Get",
@@ -52,6 +54,10 @@
       // body: JSON.stringify({
       //   prompt: '前端开发'，
       // }),
+    }).catch((err)=>{
+      msg_show.textContent = `下载失败`;
+      msg_show_more.textContent = `${JSON.stringify(err, null, 2)}`;
+      return Promise.reject(err);
     });
     console.log( res );
     let json = await res.json();
@@ -63,6 +69,7 @@
     let blob = dataURL2Blob(base64);
     let downloadUrl = URL.createObjectURL( blob );
     console.log( downloadUrl  )
+    msg_show.textContent = `加载完毕!`;
     
     let fileName = searchParams.get('name') || '';
     fileName = decodeURIComponent(fileName);
