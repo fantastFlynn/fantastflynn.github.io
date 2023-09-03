@@ -3,10 +3,22 @@
 <head>
   <meta charset="utf-8">
   <title>gitee文件下载</title>
+  <style>
+    #video_show {
+      display: none;
+      width: 100%;
+    }
+    #audio_show {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div id="msg_show"> </div>
   <div id="msg_show_more"> </div>
+  
+  <video id="video_show"  > </video>
+  <audio id="audio_show" > </audio>
 <script type="text/javascript">
   // 
   function dataURL2Blob(base64){  
@@ -69,6 +81,22 @@
     let blob = dataURL2Blob(base64);
     let downloadUrl = URL.createObjectURL( blob );
     console.log( downloadUrl  )
+    
+    // 视频 
+    if (searchParams.get('isvideo')) {
+      video_show.style.display = 'block';
+      video_show.src = downloadUrl;
+      return ;
+    }
+    
+    // 音频 
+    if (searchParams.get('isaudio')) {
+      audio_show.style.display = 'block';
+      audio_show.src = downloadUrl;
+      return ;
+    }
+    
+    // 下载 
     msg_show.textContent = `加载完毕!`;
     
     let fileName = searchParams.get('name') || '';
