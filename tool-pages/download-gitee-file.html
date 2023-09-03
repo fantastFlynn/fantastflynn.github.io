@@ -5,25 +5,37 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
   <title>文件查看/下载</title>
   <style>
+    .content {
+      height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     #image_show {
-      display: none;
       width: 100%;
       height: 100%;
       object-fit: contain;
-    }
-    #video_show {
       display: none;
-      width: 100%;
     }
     #audio_show {
       display: none;
     }
+    #video_show {
+      width: 100%;
+      display: none;
+    }
+    
+    #msg_show {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <img id="image_show" />
-  <video id="video_show" controls > </video>
-  <audio id="audio_show" controls > </audio>
+  <div class="content">
+    <img id="image_show" />
+    <audio id="audio_show" controls > </audio>
+    <video id="video_show" controls > </video>
+  </div>
   
   <div id="msg_show"> </div>
   <div id="msg_show_more"> </div>
