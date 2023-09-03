@@ -21,11 +21,13 @@
 </head>
 <body>
   <div id="msg_show"> </div>
-  <div id="msg_show_more"> </div>
   
   <img id="image_show" />
   <video id="video_show" controls > </video>
   <audio id="audio_show" controls > </audio>
+  
+  <div id="msg_show_more"> </div>
+  
 <script type="text/javascript">
   // 
   function dataURL2Blob(base64){  
@@ -88,6 +90,7 @@
     let blob = dataURL2Blob(base64);
     let downloadUrl = URL.createObjectURL( blob );
     console.log( downloadUrl  )
+    msg_show.textContent = `加载完毕!`;
     
     // 图片 
     if (searchParams.get('isimage')) {
@@ -111,7 +114,6 @@
     }
     
     // 下载 
-    msg_show.textContent = `加载完毕!`;
     
     let fileName = searchParams.get('name') || '';
     fileName = decodeURIComponent(fileName);
