@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <title>gitee文件下载</title>
   <style>
+    #image_show {
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
     #video_show {
       display: none;
       width: 100%;
@@ -17,8 +23,9 @@
   <div id="msg_show"> </div>
   <div id="msg_show_more"> </div>
   
-  <video id="video_show"  > </video>
-  <audio id="audio_show" > </audio>
+  <img id="image_show" />
+  <video id="video_show" controls > </video>
+  <audio id="audio_show" controls > </audio>
 <script type="text/javascript">
   // 
   function dataURL2Blob(base64){  
@@ -81,6 +88,13 @@
     let blob = dataURL2Blob(base64);
     let downloadUrl = URL.createObjectURL( blob );
     console.log( downloadUrl  )
+    
+    // 图片 
+    if (searchParams.get('isimage')) {
+      image_show.style.display = 'block';
+      image_show.src = downloadUrl;
+      return ;
+    }
     
     // 视频 
     if (searchParams.get('isvideo')) {
