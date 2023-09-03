@@ -21,14 +21,13 @@
   </style>
 </head>
 <body>
-  <div id="msg_show"> </div>
-  
   <img id="image_show" />
   <video id="video_show" controls > </video>
   <audio id="audio_show" controls > </audio>
   
+  <div id="msg_show"> </div>
   <div id="msg_show_more"> </div>
-  
+</body>
 <script type="text/javascript">
   // 
   function dataURL2Blob(base64){  
@@ -121,5 +120,4 @@
     downloadFile(fileName, downloadUrl);
   })();
 </script>
-</body>
 </html>
